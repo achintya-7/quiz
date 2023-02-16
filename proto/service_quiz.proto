@@ -7,5 +7,5 @@ import "rpc_create_quiz.proto";
 option go_package = "github.com/achintya-7/quiz/pb";
 
 service QuizService {
-    rpc CreateQuestion (CreateQuizRequest) returns (CreateQuizResponse) {}
+    rpc CreateQuiz (CreateQuizRequest) returns (CreateQuizResponse) {}
 }
