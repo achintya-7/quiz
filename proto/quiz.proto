@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/achintya-7/quiz/pb";
+
+message Question {
+    string id = 1;
+    string quiz_id = 2;
+    string question = 3;
+    google.protobuf.Timestamp created_at = 4;
+    string answer = 5;
+}
+
+message Quiz {
+    string id = 1;
+    string created_by = 2;
+    string name = 3;
+    string description = 4;
+    google.protobuf.Timestamp created_at = 5;
+}
