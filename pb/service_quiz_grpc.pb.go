@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QuizServiceClient interface {
-	CreateQuestion(ctx context.Context, in *CreateQuizRequest, opts ...grpc.CallOption) (*CreateQuizResponse, error)
+	CreateQuiz(ctx context.Context, in *CreateQuizRequest, opts ...grpc.CallOption) (*CreateQuizResponse, error)
 }
 
 type quizServiceClient struct {
@@ -33,9 +33,9 @@ func NewQuizServiceClient(cc grpc.ClientConnInterface) QuizServiceClient {
 	return &quizServiceClient{cc}
 }
 
-func (c *quizServiceClient) CreateQuestion(ctx context.Context, in *CreateQuizRequest, opts ...grpc.CallOption) (*CreateQuizResponse, error) {
+func (c *quizServiceClient) CreateQuiz(ctx context.Context, in *CreateQuizRequest, opts ...grpc.CallOption) (*CreateQuizResponse, error) {
 	out := new(CreateQuizResponse)
-	err := c.cc.Invoke(ctx, "/pb.QuizService/CreateQuestion", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.QuizService/CreateQuiz", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *quizServiceClient) CreateQuestion(ctx context.Context, in *CreateQuizRe
 // All implementations must embed UnimplementedQuizServiceServer
 // for forward compatibility
 type QuizServiceServer interface {
-	CreateQuestion(context.Context, *CreateQuizRequest) (*CreateQuizResponse, error)
+	CreateQuiz(context.Context, *CreateQuizRequest) (*CreateQuizResponse, error)
 	mustEmbedUnimplementedQuizServiceServer()
 }
 
@@ -54,8 +54,8 @@ type QuizServiceServer interface {
 type UnimplementedQuizServiceServer struct {
 }
 
-func (UnimplementedQuizServiceServer) CreateQuestion(context.Context, *CreateQuizRequest) (*CreateQuizResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateQuestion not implemented")
+func (UnimplementedQuizServiceServer) CreateQuiz(context.Context, *CreateQuizRequest) (*CreateQuizResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateQuiz not implemented")
 }
 func (UnimplementedQuizServiceServer) mustEmbedUnimplementedQuizServiceServer() {}
 
@@ -70,20 +70,20 @@ func RegisterQuizServiceServer(s grpc.ServiceRegistrar, srv QuizServiceServer) {
 	s.RegisterService(&QuizService_ServiceDesc, srv)
 }
 
-func _QuizService_CreateQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QuizService_CreateQuiz_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateQuizRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QuizServiceServer).CreateQuestion(ctx, in)
+		return srv.(QuizServiceServer).CreateQuiz(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.QuizService/CreateQuestion",
+		FullMethod: "/pb.QuizService/CreateQuiz",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QuizServiceServer).CreateQuestion(ctx, req.(*CreateQuizRequest))
+		return srv.(QuizServiceServer).CreateQuiz(ctx, req.(*CreateQuizRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +96,8 @@ var QuizService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*QuizServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateQuestion",
-			Handler:    _QuizService_CreateQuestion_Handler,
+			MethodName: "CreateQuiz",
+			Handler:    _QuizService_CreateQuiz_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
