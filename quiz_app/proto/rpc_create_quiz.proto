@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb;
+
+import "quiz.proto";
+
+message CreateQuizRequest {
+    string name = 1;
+    string description = 2;
+    string created_by = 3;
+}
+
+message CreateQuizResponse {
+    Quiz quiz = 1;
+}
