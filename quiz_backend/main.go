@@ -11,6 +11,7 @@ import (
 	"github.com/achintya-7/quiz/gapi"
 	"github.com/achintya-7/quiz/pb"
 	"github.com/achintya-7/quiz/util"
+	"github.com/keploy/go-sdk/keploy"
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -33,7 +34,7 @@ func main() {
 
 	store := db.NewStore(conn)
 
-	runGRPC(config, store)
+	runHTTP(config, store)
 }
 
 func runGRPC(config util.Config, store *db.Store) {
@@ -62,12 +63,23 @@ func runGRPC(config util.Config, store *db.Store) {
 }
 
 func runHTTP(config util.Config, store *db.Store) {
-	server, err := api.NewServer(store, config)
+
+	k := keploy.New(keploy.Config{
+		App: keploy.AppConfig{
+			Name: "quiz",
+			Port: "8080",
+		},
+		Server: keploy.ServerConfig{
+			URL: "http://localhost:6789/api",
+		},
+	})
+
+	server, err := api.NewServer(store, config, k)
 	if err != nil {
 		log.Fatal("Cannot create server", err)
 	}
 
-	err = server.Start(config.HTTPServerAddress)
+	err = server.Start(":8080")
 	if err != nil {
 		log.Fatal("Cannot start server", err)
 	}

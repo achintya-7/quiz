@@ -1,0 +1,36 @@
+version: api.keploy.io/v1beta2
+kind: Http
+name: test-2
+spec:
+    metadata: {}
+    req:
+        method: POST
+        proto_major: 1
+        proto_minor: 1
+        url: /quiz/
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Content-Length: "104"
+            Content-Type: application/json
+            Postman-Token: f9929106-72c3-45b2-a6db-6d314a0f9d56
+            User-Agent: PostmanRuntime/7.31.1
+        body: "{\r\n    \"name\": \"Quiz 3\",\r\n    \"created_by\": \"Achintya4\",\r\n    \"description\": \"This is the third quiz\"\r\n}"
+        body_type: utf-8
+    resp:
+        status_code: 200
+        header:
+            Content-Type: application/json; charset=utf-8
+        body: '{"id":61,"created_by":"Achintya4","name":"Quiz 3","description":"This is the third quiz","created_at":"2023-03-20T18:51:02.814183Z"}'
+        body_type: utf-8
+        status_message: ""
+        proto_major: 1
+        proto_minor: 1
+    objects:
+        - type: error
+          data: H4sIAAAAAAAA/wEAAP//AAAAAAAAAAA=
+    assertions:
+        noise:
+            - body.id
+    created: 1679471482

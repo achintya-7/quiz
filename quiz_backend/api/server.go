@@ -1,9 +1,13 @@
 package api
 
 import (
+	"fmt"
+
 	db "github.com/achintya-7/quiz/db/sqlc"
 	"github.com/achintya-7/quiz/util"
 	"github.com/gin-gonic/gin"
+	"github.com/keploy/go-sdk/integrations/kgin/v1"
+	"github.com/keploy/go-sdk/keploy"
 )
 
 type Server struct {
@@ -12,19 +16,22 @@ type Server struct {
 	router *gin.Engine
 }
 
-func NewServer(store *db.Store, config util.Config) (*Server, error) {
+func NewServer(store *db.Store, config util.Config, k *keploy.Keploy) (*Server, error) {
 	server := &Server{store: store, config: config}
 
-	server.setupRoutes()
+	server.setupRoutes(k)
 
 	return server, nil
 }
 
-func (server *Server) setupRoutes() {
+func (server *Server) setupRoutes(k *keploy.Keploy) {
 	router := gin.Default()
 
+	fmt.Println("Setting up keploy")
+	kgin.GinV1(k, router)
+
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"ping": "pong"})
+		c.JSON(200, gin.H{"pingy": "pongy"})
 	})
 
 	// * Quiz Routes
